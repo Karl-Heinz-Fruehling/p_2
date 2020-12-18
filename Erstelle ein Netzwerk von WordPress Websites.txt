@@ -1,0 +1,32 @@
+Erstelle ein Netzwerk von WordPress Websites
+Aktivieren des Netzwerks
+Vervollständige die folgenden Schritte, um die Funktionen zum Erstellen eines Netzwerks von Websites zu aktivieren.
+
+Vorsicht: Wir empfehlen dir, die existierenden Dateien wp-config.php und .htaccess zu sichern.
+
+Füge folgendes zur deiner wp-config.php Datei hinzu, in /volume1/web/wordpress/ oberhalb der Zeile die /* That’s all, stop editing! Happy publishing. */ enthält:
+
+define('MULTISITE', true);
+define('SUBDOMAIN_INSTALL', false);
+define('DOMAIN_CURRENT_SITE', 'mydsm');
+define('PATH_CURRENT_SITE', '/wordpress/');
+define('SITE_ID_CURRENT_SITE', 1);
+define('BLOG_ID_CURRENT_SITE', 1);
+
+Füge Folgendes zu deiner Datei .htaccess in /volume1/web/wordpress/ hinzu und ersetze andere WordPress-Regeln dadurch:
+
+RewriteEngine On
+RewriteBase /wordpress/
+RewriteRule ^index\.php$ - [L]
+
+# add a trailing slash to /wp-admin
+RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
+RewriteRule . index.php [L]
+
+Nach Abschluss dieser Schritte ist dein Netzwerk aktiviert und eingerichtet. Dann musst du dich erneut anmelden. Anmelden
